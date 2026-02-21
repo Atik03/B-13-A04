@@ -44,6 +44,27 @@
         </div>
       </div>
       <!-- End Dashboard -->
+      <!-- Start Jobs Section -->
+      <div class="bg-white p-6 rounded-lg shadow-sm border">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-xl font-semibold">Available Jobs</h2>
+          <span id="tabCount" class="text-sm text-gray-500">8 Jobs</span>
+        </div>
+
+        <div class="tabs tabs-bordered mb-6">
+          <button class="tab tab-active" data-tab="all">All</button>
+          <button class="tab" data-tab="interview">Interview</button>
+          <button class="tab" data-tab="rejected">Rejected</button>
+        </div>
+
+        <div id="jobsContainer" class="grid grid-cols-1 gap-4"></div>
+
+        <div id="emptyState" class="hidden text-center py-10 text-gray-500">
+          <p class="text-lg font-medium">No Jobs Available</p>
+          <p class="text-sm">There are no jobs in this section.</p>
+        </div>
+      </div>
+      <!-- End Jobs Section -->
     </div>
   </body>
   <script src="script.js"></script>
