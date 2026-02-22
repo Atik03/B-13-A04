@@ -85,3 +85,13 @@ const jobs = [
     status: "not-applied",
   },
 ];
+
+const container = document.getElementById("jobsContainer");
+
+function statusBadge(status) {
+  if (status === "interview")
+    return `<span class="text-xs font-medium px-3 py-1 rounded bg-green-100 text-green-600">INTERVIEW</span>`;
+  if (status === "rejected")
+    return `<span class="text-xs font-medium px-3 py-1 rounded bg-red-100 text-red-600">REJECTED</span>`;
+  return `<span class="text-xs font-medium px-3 py-1 rounded bg-blue-100 text-blue-600">NOT APPLIED</span>`;
+}
