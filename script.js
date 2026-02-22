@@ -95,3 +95,85 @@ function statusBadge(status) {
     return `<span class="text-xs font-medium px-3 py-1 rounded bg-red-100 text-red-600">REJECTED</span>`;
   return `<span class="text-xs font-medium px-3 py-1 rounded bg-blue-100 text-blue-600">NOT APPLIED</span>`;
 }
+
+function renderJobs(tab = "all") {
+  container.innerHTML = "";
+
+  let filtered = tab === "all" ? jobs : jobs.filter((j) => j.status === tab);
+
+  document.getElementById("tabCount").innerText = filtered.length + " Jobs";
+
+  if (filtered.length === 0) {
+    document.getElementById("emptyState").classList.remove("hidden");
+  } else {
+    document.getElementById("emptyState").classList.add("hidden");
+  }
+
+  filtered.forEach((job) => {
+    const card = document.createElement("div");
+    card.className = "bg-white border border-gray-200 rounded-lg p-5 shadow-sm";
+
+    card.innerHTML = `
+      <div class="flex justify-between items-start mb-2">
+        <div>
+          <h3 class="text-lg font-semibold text-gray-800">${job.companyName}</h3>
+          <p class="text-sm text-gray-500">${job.position}</p>
+        </div>
+
+        <div class="flex items-center gap-3">
+          ${statusBadge(job.status)}
+          <button class="text-gray-400 hover:text-red-500 delete">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </div>
+      </div>
+
+      <p class="text-sm text-gray-500 mb-3">
+        ${job.location} · ${job.type} · ${job.salary}
+      </p>
+
+      <p class="text-sm text-gray-600 mb-4">
+        ${job.description}
+      </p>
+
+      <div class="flex gap-3">
+        <button class="border border-green-500 text-green-600 px-4 py-1 rounded text-sm interview">
+          INTERVIEW
+        </button>
+        <button class="border border-red-500 text-red-600 px-4 py-1 rounded text-sm reject">
+          REJECTED
+        </button>
+      </div>
+    `;
+    card.querySelector(".interview").onclick = () => {
+      job.status = "interview";
+      updateCounts();
+      renderJobs(tab);
+    };
+
+    card.querySelector(".reject").onclick = () => {
+      job.status = "rejected";
+      updateCounts();
+      renderJobs(tab);
+    };
+
+    card.querySelector(".delete").onclick = () => {
+      const index = jobs.findIndex((j) => j.id === job.id);
+      jobs.splice(index, 1);
+      updateCounts();
+      renderJobs(tab);
+    };
+
+    container.appendChild(card);
+  });
+}
+
+function updateCounts() {
+  document.getElementById("totalCount").innerText = jobs.length;
+  document.getElementById("interviewCount").innerText = jobs.filter(
+    (j) => j.status === "interview",
+  ).length;
+  document.getElementById("rejectedCount").innerText = jobs.filter(
+    (j) => j.status === "rejected",
+  ).length;
+}
