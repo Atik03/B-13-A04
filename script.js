@@ -145,6 +145,7 @@ function renderJobs(tab = "all") {
         </button>
       </div>
     `;
+
     card.querySelector(".interview").onclick = () => {
       job.status = "interview";
       updateCounts();
@@ -177,3 +178,17 @@ function updateCounts() {
     (j) => j.status === "rejected",
   ).length;
 }
+
+document.querySelectorAll(".tab").forEach((tab) => {
+  tab.addEventListener("click", function () {
+    document
+      .querySelectorAll(".tab")
+      .forEach((t) => t.classList.remove("tab-active"));
+
+    this.classList.add("tab-active");
+    renderJobs(this.dataset.tab);
+  });
+});
+
+renderJobs();
+updateCounts();
